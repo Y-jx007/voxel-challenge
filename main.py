@@ -36,8 +36,8 @@ def initialize_voxels():
             scene.set_voxel(vec3(i/2+30,j,-52+i/2*sqrt3),1,col)
             scene.set_voxel(vec3(i/2-60,j,-i/2*sqrt3),1,col)
             scene.set_voxel(vec3(i / 2 - 60, j, i / 2 * sqrt3), 1, col)
-    for i,j in ti.ndrange(80,80):
-        I,J=i-40,j-40
+    for i,j in ti.ndrange(80,70):
+        I,J=i-40,j-35
         if -sqrt3*I+70>J>-sqrt3*I-70 and sqrt3*I+70>J>sqrt3*I-70:
             if I<-20 or (I<20 and J>I/sqrt3):
                 scene.set_voxel(vec3(I,0,J),2,vec3(0.6))
