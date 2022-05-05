@@ -29,14 +29,14 @@ def initialize_voxels():
                 (abs(X/sqrt3-Y/sqrt3)>line
                  or sqrt3*X+sqrt3*Y<2*side/sqrt3
                  or sqrt3*X+sqrt3*Y>4*side/sqrt3)):
-            col=vec3(255, 202, 40)/256*ti.cos((i**2+j**2)/2000) +\
-            vec3(255, 255, 0)/256*(1 - ti.cos((i**2+j**2)/2000))
+            col=vec3(255, 193, 7)/256*ti.cos(i*6.28/61)*ti.cos(j*6.28/56) +\
+            vec3(255, 152, 0)/256*(1 - ti.cos(i*6.28/61)*ti.cos(j*6.28/56))
             scene.set_voxel(vec3(i-30,j-64,52),1,col)
             scene.set_voxel(vec3(i-30,j-64,-52),1,col)
             scene.set_voxel(vec3(i/2+30,j-64,52-i/2*sqrt3),1,col)
             scene.set_voxel(vec3(i/2+30,j-64,-52+i/2*sqrt3),1,col)
             scene.set_voxel(vec3(i/2-60,j-64,-i/2*sqrt3),1,col)
-            scene.set_voxel(vec3(i / 2 - 60, j-64, i / 2 * sqrt3), 1, col)
+            scene.set_voxel(vec3(i / 2 - 60, j-64, i / 2 * sqrt3), 1, col)#巢
     for i,j,k in ti.ndrange(80,80,40):
         I,J,K=i-40,j-40,k
         if abs(-sqrt3*I+2*sqrt3*J-6*K)<6\
@@ -45,10 +45,20 @@ def initialize_voxels():
                     scene.set_voxel(vec3(I*ti.cos(n*3.14/3)-J*ti.sin(n*3.14/3),
                                          K-34,I*ti.sin(n*3.14/3)+J*ti.cos(n*3.14/3)),1,
                                     vec3(100,181,246)/256*(n/2+3)*ti.cos(I*J/160)/3+
-                                    vec3(103,58,183)/256*(n/2+3)*(1-ti.cos(I*J/160))/3
-                                    )
+                                    vec3(103,58,183)/256*(n/2+3)*(1-ti.cos(I*J/160))/3)#花瓣
+                    scene.set_voxel(vec3(0.5*I*ti.cos((n+0.5)*3.14/3)-0.5*J*ti.sin((n+0.5)*3.14/3),
+                                         K-34-(I**2+J**2)/60,0.5*I*ti.sin((n+0.5)*3.14/3)+0.5*J*ti.cos((n+0.5)*3.14/3)),1,
+                                    vec3(198,255,0)/256*(n/2+3)*ti.cos(I*J/160)/3+
+                                    vec3(51,105,30)/256*(n/2+3)*(1-ti.cos(I*J/160))/3)#花萼
+        if K<25-10*ti.sqrt(I**2+J**2):
+            for n in range(6):
+                scene.set_voxel(vec3(I,K/2-28,J)+vec3((K**2/16+20)/20*8*ti.cos((n+1)*3.14/3),0,
+                            (K**2/16+20)/20*8*ti.sin((n+1)*3.14/3))
+                            ,1,vec3(248,187,208)/256)#花蕊
+        if K<4-ti.sqrt(I**2+J**2):
+            scene.set_voxel(vec3(I,K-27,J),2,vec3(1.))
         if abs(I**2+J**2)<4 and K<30:
-            scene.set_voxel(vec3(I,K-64,J),2,vec3(100,221,23)/256)
+            scene.set_voxel(vec3(I,K-64,J),1,vec3(100,221,23)/256)#茎
 
 initialize_voxels()
 
